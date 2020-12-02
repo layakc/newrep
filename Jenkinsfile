@@ -9,7 +9,7 @@ pipeline {
             }
             steps {
                 sh 'python -m py_compile sources/add2vals.py sources/calc.py'
-                stash(name: 'compiled-results',includes: 'sources/*.py')
+                stash(name: 'compiled-results',includes: 'sources/*.py*')
             }
         }
         stage('Test') {
@@ -30,8 +30,8 @@ pipeline {
         stage('Deliver') {
             agent any
             environment {
-               VOLUME= '$(pwd)/sources:/src'
-               IMAGE= 'crdx/pyinstaller-linux:python2'
+               VOLUME = '$(pwd)/sources:/src'
+               IMAGE = 'cdrx/pyinstaller-linux:python2'
             }
             steps {
                dir(path: env.BUILD_ID) {
